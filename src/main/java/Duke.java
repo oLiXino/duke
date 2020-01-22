@@ -21,11 +21,21 @@ public class Duke {
                 }
             } else if (command.indexOf("done") == 0) {
                 int index = Integer.parseInt(command.split(" ")[1]) - 1;
-                if (index < list.size()) {
+                if (index < list.size() && index >= 0) {
                     System.out.println("Nice! I've marked this task as done:");
                     Task task = list.get(index);
                     task.markAsDone();
                     System.out.println(task);
+                } else {
+                    System.out.println("This task does not exist in your list");
+                }
+            } else if (command.indexOf("delete") == 0) {
+                int index = Integer.parseInt(command.split(" ")[1]) - 1;
+                if (index < list.size() && index >= 0) {
+                    System.out.println("Noted. I've removed this task: ");
+                    Task task = list.remove(index);
+                    System.out.println(task);
+                    System.out.println("Now you have " + list.size() + " tasks in the list.");
                 } else {
                     System.out.println("This task does not exist in your list");
                 }
