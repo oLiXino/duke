@@ -31,29 +31,45 @@ public class Duke {
                 }
             } else if (command.indexOf("todo") == 0) {
                 int emptyIndex = command.indexOf(" ");
-                Todo todo = new Todo(command.substring(emptyIndex + 1));
-                list.add(todo);
-                System.out.println("Got it. I've added this task: ");
-                System.out.println(todo);
-                System.out.println("Now you have " + list.size() + " tasks in the list." );
+                if (command.trim().equals("todo")) {
+                    System.out.println("☹ OOPS!!! The description of a todo cannot be empty.");
+                } else {
+                    Todo todo = new Todo(command.substring(emptyIndex + 1));
+                    list.add(todo);
+                    System.out.println("Got it. I've added this task: ");
+                    System.out.println(todo);
+                    System.out.println("Now you have " + list.size() + " tasks in the list." );
+                }
             } else if (command.indexOf("deadline") == 0) {
                 int emptyIndex = command.indexOf(" ");
                 int slashIndex = command.indexOf("/");
-                Deadline deadline = new Deadline(command.substring(emptyIndex + 1, slashIndex - 1), command.substring(slashIndex + 4));
-                list.add(deadline);
-                System.out.println("Got it. I've added this task: ");
-                System.out.println(deadline);
-                System.out.println("Now you have " + list.size() + " tasks in the list.");
+                if (command.trim().equals("deadline")) {
+                    System.out.println("☹ OOPS!!! The description of a deadline cannot be empty.");
+                } else if (slashIndex == -1) {
+                    System.out.println("☹ OOPS!!! The deadline of a deadline cannot be empty.");
+                } else {
+                    Deadline deadline = new Deadline(command.substring(emptyIndex + 1, slashIndex - 1), command.substring(slashIndex + 4));
+                    list.add(deadline);
+                    System.out.println("Got it. I've added this task: ");
+                    System.out.println(deadline);
+                    System.out.println("Now you have " + list.size() + " tasks in the list.");
+                }
             } else if (command.indexOf("event") == 0) {
                 int emptyIndex = command.indexOf(" ");
                 int slashIndex = command.indexOf("/");
-                Event event = new Event(command.substring(emptyIndex + 1, slashIndex - 1), command.substring(slashIndex + 4));
-                list.add(event);
-                System.out.println("Got it. I've added this task: ");
-                System.out.println(event);
-                System.out.println("Now you have " + list.size() + " tasks in the list." );
+                if (command.trim().equals("event")) {
+                    System.out.println("☹ OOPS!!! The description of a event cannot be empty.");
+                } else if (slashIndex == -1) {
+                    System.out.println("☹ OOPS!!! The time of a event cannot be empty.");
+                } else {
+                    Event event = new Event(command.substring(emptyIndex + 1, slashIndex - 1), command.substring(slashIndex + 4));
+                    list.add(event);
+                    System.out.println("Got it. I've added this task: ");
+                    System.out.println(event);
+                    System.out.println("Now you have " + list.size() + " tasks in the list." );
+                }
             } else {
-                System.out.println("Invalid command");
+                System.out.println("☹ OOPS!!! I'm sorry, but I don't know what that means :-(");
             }
             System.out.println("-----------------------------------");
             System.out.println();
