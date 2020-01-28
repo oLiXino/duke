@@ -121,13 +121,15 @@ public class Duke {
                 }
                 tasks.add(todo);
             } else if (type.equals("D")) {
-                Deadline deadline = new Deadline(data[2].trim(), LocalDate.parse(data[3].trim()));
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM d yyyy");
+                Deadline deadline = new Deadline(data[2].trim(), LocalDate.parse(data[3].trim(), formatter));
                 if (isDone.equals("1")) {
                     deadline.markAsDone();
                 }
                 tasks.add(deadline);
             } else {
-                Event event = new Event(data[2].trim(), LocalDate.parse(data[3].trim()));
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM d yyyy");
+                Event event = new Event(data[2].trim(), LocalDate.parse(data[3].trim(), formatter));
                 if (isDone.equals("1")) {
                     event.markAsDone();
                 }
