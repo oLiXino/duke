@@ -1,9 +1,18 @@
 import java.util.Scanner;
 import java.util.ArrayList;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 public class Duke {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         ArrayList<Task> list = new ArrayList<>();
+        try {
+            list = printFileContents("data/duke.txt");
+        } catch (FileNotFoundException e) {
+            System.out.println("File not found");
+        }
         System.out.println("-----------------------------------");
         System.out.println("Hello! I'm Cat");
         System.out.println("What can I do for you?");
@@ -25,6 +34,7 @@ public class Duke {
                     System.out.println("Nice! I've marked this task as done:");
                     Task task = list.get(index);
                     task.markAsDone();
+                    writeToFile("data/duke.txt", list);
                     System.out.println(task);
                 } else {
                     System.out.println("This task does not exist in your list");
@@ -34,6 +44,7 @@ public class Duke {
                 if (index < list.size() && index >= 0) {
                     System.out.println("Noted. I've removed this task: ");
                     Task task = list.remove(index);
+                    writeToFile("data/duke.txt", list);
                     System.out.println(task);
                     System.out.println("Now you have " + list.size() + " tasks in the list.");
                 } else {
@@ -46,6 +57,7 @@ public class Duke {
                 } else {
                     Todo todo = new Todo(command.substring(emptyIndex + 1));
                     list.add(todo);
+                    writeToFile("data/duke.txt", list);
                     System.out.println("Got it. I've added this task: ");
                     System.out.println(todo);
                     System.out.println("Now you have " + list.size() + " tasks in the list." );
@@ -60,6 +72,7 @@ public class Duke {
                 } else {
                     Deadline deadline = new Deadline(command.substring(emptyIndex + 1, slashIndex - 1), command.substring(slashIndex + 4));
                     list.add(deadline);
+                    writeToFile("data/duke.txt", list);
                     System.out.println("Got it. I've added this task: ");
                     System.out.println(deadline);
                     System.out.println("Now you have " + list.size() + " tasks in the list.");
@@ -74,6 +87,7 @@ public class Duke {
                 } else {
                     Event event = new Event(command.substring(emptyIndex + 1, slashIndex - 1), command.substring(slashIndex + 4));
                     list.add(event);
+                    writeToFile("data/duke.txt", list);
                     System.out.println("Got it. I've added this task: ");
                     System.out.println(event);
                     System.out.println("Now you have " + list.size() + " tasks in the list." );
@@ -88,5 +102,62 @@ public class Duke {
         System.out.println("-----------------------------------");
         System.out.println("Bye. Hope to see you again soon!");
         System.out.println("-----------------------------------");
+    }
+
+    private static ArrayList<Task> printFileContents(String filePath) throws FileNotFoundException {
+        ArrayList<Task> tasks = new ArrayList<>();
+        File f = new File(filePath); // create a File for the given file path
+        Scanner s = new Scanner(f); // create a Scanner using the File as the source
+        while (s.hasNext()) {
+            String[] data = s.nextLine().split("\\|");
+            String type = data[0].trim();
+            String isDone = data[1].trim();
+            if (type.equals("T")){
+                Todo todo = new Todo(data[2].trim());
+                if (isDone.equals("1")) {
+                    todo.markAsDone();
+                }
+                tasks.add(todo);
+            } else if (type.equals("D")) {
+                Deadline deadline = new Deadline(data[2].trim(), data[3].trim());
+                if (isDone.equals("1")) {
+                    deadline.markAsDone();
+                }
+                tasks.add(deadline);
+            } else {
+                Event event = new Event(data[2].trim(), data[3].trim());
+                if (isDone.equals("1")) {
+                    event.markAsDone();
+                }
+                tasks.add(event);
+            }
+        }
+        return tasks;
+    }
+
+    private static void writeFileContent(String filePath, ArrayList<Task> tasks) throws IOException {
+        FileWriter fw = new FileWriter(filePath);
+        for (Task task : tasks) {
+            String type = task instanceof Todo ? "T" : task instanceof Deadline ? "D" : "E";
+            String status = task.isDone ? "1" : "0";
+            String description = task.description;
+            String text = type + " | " + status + " | " + description;
+            if (task instanceof Deadline) {
+                text += " | " + ((Deadline) task).by;
+            }
+            if (task instanceof Event) {
+                text += " | " + ((Event) task).at;
+            }
+            fw.write(text + System.lineSeparator());
+        }
+        fw.close();
+    }
+
+    private static void writeToFile(String filePath, ArrayList<Task> tasks) {
+        try {
+            writeFileContent(filePath, tasks);
+        } catch (IOException e) {
+            System.out.println("Something went wrong: " + e.getMessage());
+        }
     }
 }
