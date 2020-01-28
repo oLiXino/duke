@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 public class Duke {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
@@ -70,7 +72,7 @@ public class Duke {
                 } else if (slashIndex == -1) {
                     System.out.println("☹ OOPS!!! The deadline of a deadline cannot be empty.");
                 } else {
-                    Deadline deadline = new Deadline(command.substring(emptyIndex + 1, slashIndex - 1), command.substring(slashIndex + 4));
+                    Deadline deadline = new Deadline(command.substring(emptyIndex + 1, slashIndex - 1), LocalDate.parse(command.substring(slashIndex + 4)));
                     list.add(deadline);
                     writeToFile("data/duke.txt", list);
                     System.out.println("Got it. I've added this task: ");
@@ -85,7 +87,7 @@ public class Duke {
                 } else if (slashIndex == -1) {
                     System.out.println("☹ OOPS!!! The time of a event cannot be empty.");
                 } else {
-                    Event event = new Event(command.substring(emptyIndex + 1, slashIndex - 1), command.substring(slashIndex + 4));
+                    Event event = new Event(command.substring(emptyIndex + 1, slashIndex - 1), LocalDate.parse(command.substring(slashIndex + 4)));
                     list.add(event);
                     writeToFile("data/duke.txt", list);
                     System.out.println("Got it. I've added this task: ");
@@ -119,13 +121,13 @@ public class Duke {
                 }
                 tasks.add(todo);
             } else if (type.equals("D")) {
-                Deadline deadline = new Deadline(data[2].trim(), data[3].trim());
+                Deadline deadline = new Deadline(data[2].trim(), LocalDate.parse(data[3].trim()));
                 if (isDone.equals("1")) {
                     deadline.markAsDone();
                 }
                 tasks.add(deadline);
             } else {
-                Event event = new Event(data[2].trim(), data[3].trim());
+                Event event = new Event(data[2].trim(), LocalDate.parse(data[3].trim()));
                 if (isDone.equals("1")) {
                     event.markAsDone();
                 }
@@ -143,10 +145,10 @@ public class Duke {
             String description = task.description;
             String text = type + " | " + status + " | " + description;
             if (task instanceof Deadline) {
-                text += " | " + ((Deadline) task).by;
+                text += " | " + ((Deadline) task).by.format(DateTimeFormatter.ofPattern("MMM d yyyy"));
             }
             if (task instanceof Event) {
-                text += " | " + ((Event) task).at;
+                text += " | " + ((Event) task).at.format(DateTimeFormatter.ofPattern("MMM d yyyy"));
             }
             fw.write(text + System.lineSeparator());
         }
