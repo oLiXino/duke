@@ -1,9 +1,12 @@
+package duke;
+
 import java.util.Scanner;
 import java.util.ArrayList;
 import java.io.FileNotFoundException;
 import java.time.LocalDate;
 public class Duke {
     public static void main(String[] args) {
+        System.out.println("hi");
         Scanner sc = new Scanner(System.in);
         Ui ui = new Ui();
         Parser parser = new Parser();
@@ -52,7 +55,7 @@ public class Duke {
                 int emptyIndex = input.indexOf(" ");
                 int slashIndex = input.indexOf("/");
                 if (input.trim().equals("deadline")) {
-                   ui.emptyDescription();
+                    ui.emptyDescription();
                 } else if (slashIndex == -1) {
                     ui.emptyDate();
                 } else {
@@ -70,6 +73,9 @@ public class Duke {
                     taskList.addEvent(input.substring(emptyIndex + 1, slashIndex - 1), LocalDate.parse(input.substring(slashIndex + 4)));
                     storage.writeToFile(tasks);
                 }
+            }  else if (command.equals("find")) {
+                String keyword = input.split(" ")[1];
+                taskList.findTask(keyword);
             } else {
                 ui.invalidCommand();
             }
@@ -83,3 +89,4 @@ public class Duke {
 
 
 }
+

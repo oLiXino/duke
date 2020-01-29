@@ -1,3 +1,5 @@
+package duke;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 public class TaskList {
@@ -54,4 +56,22 @@ public class TaskList {
         System.out.println(task);
         System.out.println("Now you have " + tasks.size() + " tasks in the list.");
     }
+
+    protected void findTask(String keyword) {
+        ArrayList<Task> result = new ArrayList<>();
+        for (Task task : tasks) {
+            if (task.description.contains(keyword)) {
+                result.add(task);
+            }
+        }
+        if (result.size() == 0) {
+            System.out.println("Sorry! I can't find any task regarding " + keyword);
+        } else {
+            System.out.println("Here are the matching tasks in your list:");
+            for (Task task : result) {
+                System.out.println(task);
+            }
+        }
+    }
 }
+

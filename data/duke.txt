@@ -1,2 +1,4 @@
 E | 1 | party | Oct 10 2020
-D | 0 | return laptop | Oct 12 2022
+D | 1 | return laptop | Oct 12 2022
+T | 1 | read book
+D | 0 | return book | Oct 12 2000

@@ -1,3 +1,5 @@
+package duke;
+
 public class Ui {
     public Ui () {}
     protected void greeting() {
@@ -34,3 +36,4 @@ public class Ui {
         System.out.println("-----------------------------------");
     }
 }
+

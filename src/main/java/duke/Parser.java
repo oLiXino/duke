@@ -1,3 +1,5 @@
+package duke;
+
 public class Parser {
 
     public Parser() {};
@@ -18,6 +20,8 @@ public class Parser {
             command = "deadline";
         } else if (input.indexOf("event") == 0) {
             command = "event";
+        } else if (input.indexOf("find") == 0) {
+            command = "find";
         } else {
             command = input;
         }
@@ -25,3 +29,4 @@ public class Parser {
     }
 
 }
+
