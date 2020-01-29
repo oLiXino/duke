@@ -23,7 +23,7 @@ public class Parser {
         } else if (input.indexOf("find") == 0) {
             command = "find";
         } else {
-            command = input;
+            command = "invalid command";
         }
         return command;
     }

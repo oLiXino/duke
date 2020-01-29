@@ -50,7 +50,10 @@ public class TaskList {
         System.out.println("Now you have " + tasks.size() + " tasks in the list." );
     }
 
-    protected void deleteTask(int index) {
+    protected void deleteTask(int index) throws Exception{
+        if (index >= tasks.size() || index < 0) {
+            throw new Exception("The task does not exist on the list");
+        }
         System.out.println("Noted. I've removed this task: ");
         Task task = tasks.remove(index);
         System.out.println(task);

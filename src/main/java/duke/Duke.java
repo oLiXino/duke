@@ -6,7 +6,6 @@ import java.io.FileNotFoundException;
 import java.time.LocalDate;
 public class Duke {
     public static void main(String[] args) {
-        System.out.println("hi");
         Scanner sc = new Scanner(System.in);
         Ui ui = new Ui();
         Parser parser = new Parser();
@@ -33,16 +32,14 @@ public class Duke {
                 } else {
                     ui.taskNotExist();
                 }
-
             } else if (command.equals("delete")) {
                 int index = Integer.parseInt(input.split(" ")[1]) - 1;
-                if (index < tasks.size() && index >= 0) {
+                try {
                     taskList.deleteTask(index);
                     storage.writeToFile(tasks);
-                } else {
+                } catch (Exception e) {
                     ui.taskNotExist();
                 }
-
             } else if (command.equals("todo")) {
                 int emptyIndex = input.indexOf(" ");
                 if (input.trim().equals("todo")) {
