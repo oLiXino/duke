@@ -2,6 +2,10 @@ package duke;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+
+/**
+ * Represents a deadline task created by the user.
+ */
 public class Deadline extends Task {
 
     protected LocalDate by;
