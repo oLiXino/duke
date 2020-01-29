@@ -1,9 +1,18 @@
 package duke;
 
+/**
+ * Represents a parser to deal with making sense of user command.
+ */
 public class Parser {
 
     public Parser() {};
 
+    /**
+     * Returns the command keyword based on the user command.
+     *
+     * @param input The user command input.
+     * @return The command keyword.
+     */
     public String parseCommand(String input) {
         String command = null;
         if (input.equals("bye")) {
