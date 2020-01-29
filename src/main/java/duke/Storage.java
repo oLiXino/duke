@@ -9,12 +9,23 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/**
+ * Represents the hard disk storage at a specific file location.
+ */
 public class Storage {
+
     String filePath;
+
     public Storage(String filePath) {
         this.filePath = filePath;
     }
 
+    /**
+     * Returns the list of task retrieved from the given file location.
+     *
+     * @return the task list that retrieved from the file.
+     * @throws FileNotFoundException If file is not found.
+     */
     public ArrayList<Task> printFileContents() throws FileNotFoundException {
         ArrayList<Task> tasks = new ArrayList<>();
         File f = new File(filePath); // create a File for the given file path
@@ -48,6 +59,12 @@ public class Storage {
         return tasks;
     }
 
+    /**
+     * Writes content of a task list to a special file location on the hard disk
+     *
+     * @param tasks the task list to be written to the file.
+     * @throws IOException if encounter issue writing content to the file.
+     */
     public void writeFileContent(ArrayList<Task> tasks) throws IOException {
         FileWriter fw = new FileWriter(filePath);
         for (Task task : tasks) {
@@ -66,6 +83,11 @@ public class Storage {
         fw.close();
     }
 
+    /**
+     * Calls writeFileContent method to write content to a specific file.
+     *
+     * @param tasks the task list to be written to the file.
+     */
     public void writeToFile(ArrayList<Task> tasks) {
         try {
             writeFileContent(tasks);
