@@ -4,13 +4,13 @@ import java.util.Scanner;
 import java.util.ArrayList;
 import java.io.FileNotFoundException;
 import java.time.LocalDate;
+
 public class Duke {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         Ui ui = new Ui();
         Parser parser = new Parser();
         Storage storage = new Storage("data/duke.txt");
-        ui.greeting();
         ArrayList<Task> tasks = new ArrayList<>();
         try {
             tasks = storage.printFileContents();
@@ -18,6 +18,7 @@ public class Duke {
             System.out.println("File not found");
         }
         TaskList taskList = new TaskList(tasks);
+        ui.greeting();
         String input = sc.nextLine();
         String command = parser.parseCommand(input);
         while (!command.equals("bye")) {
@@ -83,7 +84,5 @@ public class Duke {
         }
         ui.sayBye();
     }
-
-
 }
 
