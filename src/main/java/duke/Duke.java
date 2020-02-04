@@ -4,9 +4,13 @@ import java.util.Scanner;
 import java.util.ArrayList;
 import java.io.FileNotFoundException;
 import java.time.LocalDate;
+import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 
 public class Duke {
+
     public static void main(String[] args) {
+
         Scanner sc = new Scanner(System.in);
         Ui ui = new Ui();
         Parser parser = new Parser();
@@ -84,5 +88,29 @@ public class Duke {
         }
         ui.sayBye();
     }
+
+    /**
+     * Iteration 1:
+     * Creates a label with the specified text and adds it to the dialog container.
+     * @param text String containing text to add
+     * @return a label with the specified text that has word wrap enabled.
+     */
+    private Label getDialogLabel(String text) {
+        // You will need to import `javafx.scene.control.Label`.
+        Label textToAdd = new Label(text);
+        textToAdd.setWrapText(true);
+
+        return textToAdd;
+    }
+
+    /**
+     * You should have your own function to generate a response to user input.
+     * Replace this stub with your completed method.
+     */
+    protected String getResponse(String input) {
+        return "Duke heard: " + input;
+    }
+
+
 }
 
