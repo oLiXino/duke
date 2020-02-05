@@ -4,113 +4,109 @@ import java.util.Scanner;
 import java.util.ArrayList;
 import java.io.FileNotFoundException;
 import java.time.LocalDate;
-import javafx.scene.control.Label;
-import javafx.scene.image.Image;
 
 public class Duke {
 
-    public static void main(String[] args) {
+    Scanner sc;
+    Ui ui;
+    Parser parser;
+    Storage storage;
+    ArrayList<Task> tasks;
+    TaskList taskList;
 
-        Scanner sc = new Scanner(System.in);
-        Ui ui = new Ui();
-        Parser parser = new Parser();
-        Storage storage = new Storage("data/duke.txt");
-        ArrayList<Task> tasks = new ArrayList<>();
+    public Duke() {
+        sc = new Scanner(System.in);
+        ui = new Ui();
+        parser = new Parser();
+        storage = new Storage("data/duke.txt");
+        tasks = new ArrayList<>();
+    }
+
+    public String run () {
+        String status;
         try {
             tasks = storage.printFileContents();
+            status = "Successfully retrieved tasks";
         } catch (FileNotFoundException e) {
-            System.out.println("File not found");
+            status = "File not found";
         }
-        TaskList taskList = new TaskList(tasks);
-        ui.greeting();
-        String input = sc.nextLine();
-        String command = parser.parseCommand(input);
-        while (!command.equals("bye")) {
-            ui.printBarrier();
-            if (command.equals("list")) {
-                taskList.listTask();
-            } else if (command.equals("done")) {
-                int index = Integer.parseInt(input.split(" ")[1]) - 1;
-                if (index < tasks.size() && index >= 0) {
-                    taskList.markTaskDone(index);
-                    storage.writeToFile(tasks);
-                } else {
-                    ui.taskNotExist();
-                }
-            } else if (command.equals("delete")) {
-                int index = Integer.parseInt(input.split(" ")[1]) - 1;
-                try {
-                    taskList.deleteTask(index);
-                    storage.writeToFile(tasks);
-                } catch (Exception e) {
-                    ui.taskNotExist();
-                }
-            } else if (command.equals("todo")) {
-                int emptyIndex = input.indexOf(" ");
-                if (input.trim().equals("todo")) {
-                    ui.emptyDescription();
-                } else {
-                    taskList.addToDo(input.substring(emptyIndex + 1));
-                    storage.writeToFile(tasks);
-                }
-            } else if (command.equals("deadline")) {
-                int emptyIndex = input.indexOf(" ");
-                int slashIndex = input.indexOf("/");
-                if (input.trim().equals("deadline")) {
-                    ui.emptyDescription();
-                } else if (slashIndex == -1) {
-                    ui.emptyDate();
-                } else {
-                    taskList.addDeadline(input.substring(emptyIndex + 1, slashIndex - 1), LocalDate.parse(input.substring(slashIndex + 4)));
-                    storage.writeToFile(tasks);
-                }
-            } else if (command.equals("event")) {
-                int emptyIndex = input.indexOf(" ");
-                int slashIndex = input.indexOf("/");
-                if (input.trim().equals("event")) {
-                    ui.emptyDescription();
-                } else if (slashIndex == -1) {
-                    ui.emptyDate();
-                } else {
-                    taskList.addEvent(input.substring(emptyIndex + 1, slashIndex - 1), LocalDate.parse(input.substring(slashIndex + 4)));
-                    storage.writeToFile(tasks);
-                }
-            }  else if (command.equals("find")) {
-                String keyword = input.split(" ")[1];
-                taskList.findTask(keyword);
-            } else {
-                ui.invalidCommand();
-            }
-            ui.printBarrier();
-            System.out.println();
-            input = sc.nextLine();
-            command = parser.parseCommand(input);
-        }
-        ui.sayBye();
+        taskList = new TaskList(tasks);
+        return status;
     }
 
     /**
-     * Iteration 1:
-     * Creates a label with the specified text and adds it to the dialog container.
-     * @param text String containing text to add
-     * @return a label with the specified text that has word wrap enabled.
-     */
-    private Label getDialogLabel(String text) {
-        // You will need to import `javafx.scene.control.Label`.
-        Label textToAdd = new Label(text);
-        textToAdd.setWrapText(true);
-
-        return textToAdd;
-    }
-
-    /**
-     * You should have your own function to generate a response to user input.
-     * Replace this stub with your completed method.
+     * Return the response message based on the input command from the user.
+     *
+     * @param input the input command from the user.
+     * @return the response message
      */
     protected String getResponse(String input) {
-        return "Duke heard: " + input;
+        String responseMessage;
+        String command = parser.parseCommand(input);
+        if (command.equals("list")) {
+            taskList.listTask();
+            responseMessage = taskList.taskMessage;
+        } else if (command.equals("done")) {
+            int index = Integer.parseInt(input.split(" ")[1]) - 1;
+            if (index < tasks.size() && index >= 0) {
+                taskList.markTaskDone(index);
+                storage.writeToFile(tasks);
+                responseMessage = taskList.taskMessage;
+            } else {
+                responseMessage = ui.taskNotExist();
+            }
+        } else if (command.equals("delete")) {
+            int index = Integer.parseInt(input.split(" ")[1]) - 1;
+            try {
+                taskList.deleteTask(index);
+                storage.writeToFile(tasks);
+                responseMessage = taskList.taskMessage;
+            } catch (Exception e) {
+                responseMessage = ui.taskNotExist();
+            }
+        } else if (command.equals("todo")) {
+            int emptyIndex = input.indexOf(" ");
+            if (input.trim().equals("todo")) {
+                responseMessage = ui.emptyDescription();
+            } else {
+                taskList.addToDo(input.substring(emptyIndex + 1));
+                storage.writeToFile(tasks);
+                responseMessage = taskList.taskMessage;
+            }
+        } else if (command.equals("deadline")) {
+            int emptyIndex = input.indexOf(" ");
+            int slashIndex = input.indexOf("/");
+            if (input.trim().equals("deadline")) {
+                responseMessage = ui.emptyDescription();
+            } else if (slashIndex == -1) {
+                responseMessage = ui.emptyDate();
+            } else {
+                taskList.addDeadline(input.substring(emptyIndex + 1, slashIndex - 1), LocalDate.parse(input.substring(slashIndex + 4)));
+                storage.writeToFile(tasks);
+                responseMessage = taskList.taskMessage;
+            }
+        } else if (command.equals("event")) {
+            int emptyIndex = input.indexOf(" ");
+            int slashIndex = input.indexOf("/");
+            if (input.trim().equals("event")) {
+                responseMessage = ui.emptyDescription();
+            } else if (slashIndex == -1) {
+                responseMessage = ui.emptyDate();
+            } else {
+                taskList.addEvent(input.substring(emptyIndex + 1, slashIndex - 1), LocalDate.parse(input.substring(slashIndex + 4)));
+                storage.writeToFile(tasks);
+                responseMessage = taskList.taskMessage;
+            }
+        } else if (command.equals("find")) {
+            String keyword = input.split(" ")[1];
+            taskList.findTask(keyword);
+            responseMessage = taskList.taskMessage;
+        }  else if (command.equals("bye")) {
+            responseMessage = ui.sayBye();
+        }  else {
+            responseMessage = ui.invalidCommand();
+        }
+        return responseMessage;
     }
-
-
 }
 

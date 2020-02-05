@@ -22,6 +22,7 @@ public class MainWindow extends AnchorPane {
     private Button sendButton;
 
     private Duke duke;
+    private Ui ui;
 
     private Image userImage = new Image(this.getClass().getResourceAsStream("/images/dab-cat.png"));
     private Image dukeImage = new Image(this.getClass().getResourceAsStream("/images/penpen.png"));
@@ -33,6 +34,18 @@ public class MainWindow extends AnchorPane {
 
     public void setDuke(Duke d) {
         duke = d;
+        ui = new Ui();
+        String status = duke.run();
+        if (status.equals("Successfully retrieved tasks")) {
+            dialogContainer.getChildren().addAll(
+                    DialogBox.getDukeDialog(status + "\n"  + ui.greeting(), dukeImage)
+            );
+        } else {
+            dialogContainer.getChildren().addAll(
+                    DialogBox.getDukeDialog("There is something wrong retrieving the data", dukeImage)
+            );
+        }
+
     }
 
     /**

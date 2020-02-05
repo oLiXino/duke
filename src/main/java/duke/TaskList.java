@@ -9,19 +9,21 @@ import java.util.ArrayList;
 public class TaskList {
 
     ArrayList<Task> tasks;
+    String taskMessage;
 
     public TaskList(ArrayList<Task> tasks) {
         this.tasks = tasks;
+        this.taskMessage = "";
     }
 
     /**
      * Displays all tasks in the task list.
      */
     protected void listTask() {
-        System.out.println("Here are the tasks in your list:");
+        taskMessage = "Here are the tasks in your list:\n";
         int i = 1;
         for (Task t : tasks) {
-            System.out.println(i + "." + t);
+            this.taskMessage += i + "." + t + "\n";
             i++;
         }
     }
@@ -32,10 +34,10 @@ public class TaskList {
      * @param index the index of the task in the task list.
      */
     protected void markTaskDone(int index) {
-        System.out.println("Nice! I've marked this task as done:");
+        taskMessage = "Nice! I've marked this task as done:\n";
         Task task = tasks.get(index);
         task.markAsDone();
-        System.out.println(task);
+        taskMessage += task;
     }
 
     /**
@@ -46,9 +48,9 @@ public class TaskList {
     protected void addToDo(String description) {
         Todo todo = new Todo(description);
         tasks.add(todo);
-        System.out.println("Got it. I've added this task: ");
-        System.out.println(todo);
-        System.out.println("Now you have " + tasks.size() + " tasks in the list." );
+        taskMessage = "Got it. I've added this task: \n";
+        taskMessage += todo + "\n";
+        taskMessage += "Now you have " + tasks.size() + " tasks in the list.\n";
     }
 
     /**
@@ -60,9 +62,9 @@ public class TaskList {
     protected void addDeadline(String description, LocalDate date) {
         Deadline deadline = new Deadline(description, date);
         tasks.add(deadline);
-        System.out.println("Got it. I've added this task: ");
-        System.out.println(deadline);
-        System.out.println("Now you have " + tasks.size() + " tasks in the list.");
+        taskMessage = "Got it. I've added this task: \n";
+        taskMessage += deadline + "\n";
+        taskMessage += "Now you have " + tasks.size() + " tasks in the list.\n";
     }
 
     /**
@@ -74,9 +76,9 @@ public class TaskList {
     protected void addEvent(String description, LocalDate date) {
         Event event = new Event(description, date);
         tasks.add(event);
-        System.out.println("Got it. I've added this task: ");
-        System.out.println(event);
-        System.out.println("Now you have " + tasks.size() + " tasks in the list." );
+        taskMessage = "Got it. I've added this task: \n";
+        taskMessage += event + "\n";
+        taskMessage += "Now you have " + tasks.size() + " tasks in the list.\n";
     }
 
     /**
@@ -89,10 +91,10 @@ public class TaskList {
         if (index >= tasks.size() || index < 0) {
             throw new Exception("The task does not exist on the list");
         }
-        System.out.println("Noted. I've removed this task: ");
         Task task = tasks.remove(index);
-        System.out.println(task);
-        System.out.println("Now you have " + tasks.size() + " tasks in the list.");
+        taskMessage = "Got it. I've removed this task: \n";
+        taskMessage += task + "\n";
+        taskMessage += "Now you have " + tasks.size() + " tasks in the list.\n";
     }
 
     /**
@@ -108,11 +110,11 @@ public class TaskList {
             }
         }
         if (result.size() == 0) {
-            System.out.println("Sorry! I can't find any task with the keyword " + keyword);
+            taskMessage = "Sorry! I can't find any task with the keyword " + keyword + "\n";
         } else {
-            System.out.println("Here are the matching tasks in your list:");
+            taskMessage += "Here are the matching tasks in your list:\n";
             for (Task task : result) {
-                System.out.println(task);
+                taskMessage += task + "\n";
             }
         }
     }

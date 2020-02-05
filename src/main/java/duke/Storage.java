@@ -88,12 +88,14 @@ public class Storage {
      *
      * @param tasks the task list to be written to the file.
      */
-    public void writeToFile(ArrayList<Task> tasks) {
+    public String writeToFile(ArrayList<Task> tasks) {
+        String status;
         try {
             writeFileContent(tasks);
+            status = "Successful saved to file";
         } catch (IOException e) {
-            System.out.println("Something went wrong: " + e.getMessage());
+            status = "Failed to saved to file";
         }
+        return status;
     }
 }
-
