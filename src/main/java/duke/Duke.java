@@ -7,12 +7,12 @@ import java.time.LocalDate;
 
 public class Duke {
 
-    Scanner sc;
-    Ui ui;
-    Parser parser;
-    Storage storage;
-    ArrayList<Task> tasks;
-    TaskList taskList;
+    private Scanner sc;
+    private Ui ui;
+    private Parser parser;
+    private Storage storage;
+    private ArrayList<Task> tasks;
+    private TaskList taskList;
 
     public Duke() {
         sc = new Scanner(System.in);
