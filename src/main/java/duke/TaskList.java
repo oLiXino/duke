@@ -88,9 +88,8 @@ public class TaskList {
      * @throws Exception if index > the number of tasks in the task list or index < 0.
      */
     protected void deleteTask(int index) throws Exception{
-        if (index >= tasks.size() || index < 0) {
+        if (index >= tasks.size() || index < 0)
             throw new Exception("The task does not exist on the list");
-        }
         Task task = tasks.remove(index);
         taskMessage = "Got it. I've removed this task: \n";
         taskMessage += task + "\n";
@@ -105,17 +104,16 @@ public class TaskList {
     protected void findTask(String keyword) {
         ArrayList<Task> result = new ArrayList<>();
         for (Task task : tasks) {
-            if (task.description.contains(keyword)) {
+            if (task.description.contains(keyword))
                 result.add(task);
-            }
         }
         if (result.size() == 0) {
             taskMessage = "Sorry! I can't find any task with the keyword " + keyword + "\n";
-        } else {
-            taskMessage = "Here are the matching tasks in your list:\n";
-            for (Task task : result) {
-                taskMessage += task + "\n";
-            }
+            return;
+        }
+        taskMessage = "Here are the matching tasks in your list:\n";
+        for (Task task : result) {
+            taskMessage += task + "\n";
         }
     }
 }

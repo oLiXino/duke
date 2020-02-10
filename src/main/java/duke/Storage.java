@@ -36,24 +36,21 @@ public class Storage {
             String isDone = data[1].trim();
             if (type.equals("T")){
                 Todo todo = new Todo(data[2].trim());
-                if (isDone.equals("1")) {
+                if (isDone.equals("1"))
                     todo.markAsDone();
-                }
                 tasks.add(todo);
             } else if (type.equals("D")) {
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM d yyyy");
                 Deadline deadline = new Deadline(data[2].trim(), LocalDate.parse(data[3].trim(), formatter));
-                if (isDone.equals("1")) {
+                if (isDone.equals("1"))
                     deadline.markAsDone();
-                }
                 tasks.add(deadline);
             } else {
                 assert type.equals("E") : "Task type should be event";
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM d yyyy");
                 Event event = new Event(data[2].trim(), LocalDate.parse(data[3].trim(), formatter));
-                if (isDone.equals("1")) {
+                if (isDone.equals("1"))
                     event.markAsDone();
-                }
                 tasks.add(event);
             }
         }
@@ -73,12 +70,10 @@ public class Storage {
             String status = task.isDone ? "1" : "0";
             String description = task.description;
             String text = type + " | " + status + " | " + description;
-            if (task instanceof Deadline) {
+            if (task instanceof Deadline)
                 text += " | " + ((Deadline) task).by.format(DateTimeFormatter.ofPattern("MMM d yyyy"));
-            }
-            if (task instanceof Event) {
+            if (task instanceof Event)
                 text += " | " + ((Event) task).at.format(DateTimeFormatter.ofPattern("MMM d yyyy"));
-            }
             fw.write(text + System.lineSeparator());
         }
         fw.close();

@@ -14,7 +14,7 @@ public class Parser {
      * @return The command keyword.
      */
     public String parseCommand(String input) {
-        String command = null;
+        String command;
         if (input.equals("bye")) {
             command = input;
         } else if (input.equals("list")) {

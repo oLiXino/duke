@@ -48,58 +48,55 @@ public class Duke {
             responseMessage = taskList.taskMessage;
         } else if (command.equals("done")) {
             int index = Integer.parseInt(input.split(" ")[1]) - 1;
-            if (index < tasks.size() && index >= 0) {
-                taskList.markTaskDone(index);
-                storage.writeToFile(tasks);
-                responseMessage = taskList.taskMessage;
-            } else {
-                responseMessage = ui.taskNotExist();
-            }
+            if (index >= tasks.size() || index < 0)
+                return ui.taskNotExist();
+            taskList.markTaskDone(index);
+            storage.writeToFile(tasks);
+            responseMessage = taskList.taskMessage;
+
         } else if (command.equals("delete")) {
             int index = Integer.parseInt(input.split(" ")[1]) - 1;
             try {
                 taskList.deleteTask(index);
-                storage.writeToFile(tasks);
+                String status = storage.writeToFile(tasks);
                 responseMessage = taskList.taskMessage;
+                assert status.equals("Successful saved to file") : "Failed to write content";
             } catch (Exception e) {
                 responseMessage = ui.taskNotExist();
             }
         } else if (command.equals("todo")) {
             int emptyIndex = input.indexOf(" ");
-            if (input.trim().equals("todo")) {
-                responseMessage = ui.emptyDescription();
-            } else {
-                taskList.addToDo(input.substring(emptyIndex + 1));
-                String status = storage.writeToFile(tasks);
-                responseMessage = taskList.taskMessage;
-                assert status.equals("Successful saved to file") : "Failed to write content";
-            }
+            if (input.trim().equals("todo"))
+                return ui.emptyDescription();
+            taskList.addToDo(input.substring(emptyIndex + 1));
+            String status = storage.writeToFile(tasks);
+            responseMessage = taskList.taskMessage;
+            assert status.equals("Successful saved to file") : "Failed to write content";
+
         } else if (command.equals("deadline")) {
             int emptyIndex = input.indexOf(" ");
             int slashIndex = input.indexOf("/");
-            if (input.trim().equals("deadline")) {
-                responseMessage = ui.emptyDescription();
-            } else if (slashIndex == -1) {
-                responseMessage = ui.emptyDate();
-            } else {
-                taskList.addDeadline(input.substring(emptyIndex + 1, slashIndex - 1), LocalDate.parse(input.substring(slashIndex + 4)));
-                String status = storage.writeToFile(tasks);
-                responseMessage = taskList.taskMessage;
-                assert status.equals("Successful saved to file") : "Failed to write content";
-            }
+            if (input.trim().equals("deadline"))
+                return ui.emptyDescription();
+            if (slashIndex == -1)
+                return ui.emptyDate();
+            taskList.addDeadline(input.substring(emptyIndex + 1, slashIndex - 1), LocalDate.parse(input.substring(slashIndex + 4)));
+            String status = storage.writeToFile(tasks);
+            responseMessage = taskList.taskMessage;
+            assert status.equals("Successful saved to file") : "Failed to write content";
+
         } else if (command.equals("event")) {
             int emptyIndex = input.indexOf(" ");
             int slashIndex = input.indexOf("/");
-            if (input.trim().equals("event")) {
-                responseMessage = ui.emptyDescription();
-            } else if (slashIndex == -1) {
-                responseMessage = ui.emptyDate();
-            } else {
-                taskList.addEvent(input.substring(emptyIndex + 1, slashIndex - 1), LocalDate.parse(input.substring(slashIndex + 4)));
-                String status = storage.writeToFile(tasks);
-                responseMessage = taskList.taskMessage;
-                assert status.equals("Successful saved to file") : "Failed to write content";
-            }
+            if (input.trim().equals("event"))
+                return ui.emptyDescription();
+            if (slashIndex == -1)
+                return ui.emptyDate();
+            taskList.addEvent(input.substring(emptyIndex + 1, slashIndex - 1), LocalDate.parse(input.substring(slashIndex + 4)));
+            String status = storage.writeToFile(tasks);
+            responseMessage = taskList.taskMessage;
+            assert status.equals("Successful saved to file") : "Failed to write content";
+
         } else if (command.equals("find")) {
             String keyword = input.split(" ")[1];
             taskList.findTask(keyword);
