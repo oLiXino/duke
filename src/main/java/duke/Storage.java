@@ -48,6 +48,7 @@ public class Storage {
                 }
                 tasks.add(deadline);
             } else {
+                assert type.equals("E") : "Task type should be event";
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM d yyyy");
                 Event event = new Event(data[2].trim(), LocalDate.parse(data[3].trim(), formatter));
                 if (isDone.equals("1")) {
@@ -85,8 +86,10 @@ public class Storage {
 
     /**
      * Calls writeFileContent method to write content to a specific file.
+     * Returns status message to indicate if content has been written to file successfully.
      *
      * @param tasks the task list to be written to the file.
+     * @return status with successful message if content was written to file successfully, false otherwise.
      */
     public String writeToFile(ArrayList<Task> tasks) {
         String status;

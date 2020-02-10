@@ -112,7 +112,7 @@ public class TaskList {
         if (result.size() == 0) {
             taskMessage = "Sorry! I can't find any task with the keyword " + keyword + "\n";
         } else {
-            taskMessage += "Here are the matching tasks in your list:\n";
+            taskMessage = "Here are the matching tasks in your list:\n";
             for (Task task : result) {
                 taskMessage += task + "\n";
             }

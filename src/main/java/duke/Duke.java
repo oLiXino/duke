@@ -70,8 +70,9 @@ public class Duke {
                 responseMessage = ui.emptyDescription();
             } else {
                 taskList.addToDo(input.substring(emptyIndex + 1));
-                storage.writeToFile(tasks);
+                String status = storage.writeToFile(tasks);
                 responseMessage = taskList.taskMessage;
+                assert status.equals("Successful saved to file") : "Failed to write content";
             }
         } else if (command.equals("deadline")) {
             int emptyIndex = input.indexOf(" ");
@@ -82,8 +83,9 @@ public class Duke {
                 responseMessage = ui.emptyDate();
             } else {
                 taskList.addDeadline(input.substring(emptyIndex + 1, slashIndex - 1), LocalDate.parse(input.substring(slashIndex + 4)));
-                storage.writeToFile(tasks);
+                String status = storage.writeToFile(tasks);
                 responseMessage = taskList.taskMessage;
+                assert status.equals("Successful saved to file") : "Failed to write content";
             }
         } else if (command.equals("event")) {
             int emptyIndex = input.indexOf(" ");
@@ -94,8 +96,9 @@ public class Duke {
                 responseMessage = ui.emptyDate();
             } else {
                 taskList.addEvent(input.substring(emptyIndex + 1, slashIndex - 1), LocalDate.parse(input.substring(slashIndex + 4)));
-                storage.writeToFile(tasks);
+                String status = storage.writeToFile(tasks);
                 responseMessage = taskList.taskMessage;
+                assert status.equals("Successful saved to file") : "Failed to write content";
             }
         } else if (command.equals("find")) {
             String keyword = input.split(" ")[1];
