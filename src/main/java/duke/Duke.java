@@ -47,23 +47,17 @@ public class Duke {
             taskList.listTask();
             responseMessage = taskList.taskMessage;
         } else if (command.equals("done")) {
-            int index = Integer.parseInt(input.split(" ")[1]) - 1;
-            if (index >= tasks.size() || index < 0)
-                return ui.taskNotExist();
-            taskList.markTaskDone(index);
-            storage.writeToFile(tasks);
+            String[] indexArr = input.substring(5).split(" ");
+            taskList.markTaskDone(indexArr);
+            String status = storage.writeToFile(tasks);
             responseMessage = taskList.taskMessage;
-
+            assert status.equals("Successful saved to file") : "Failed to write content";
         } else if (command.equals("delete")) {
-            int index = Integer.parseInt(input.split(" ")[1]) - 1;
-            try {
-                taskList.deleteTask(index);
-                String status = storage.writeToFile(tasks);
-                responseMessage = taskList.taskMessage;
-                assert status.equals("Successful saved to file") : "Failed to write content";
-            } catch (Exception e) {
-                responseMessage = ui.taskNotExist();
-            }
+            String[] indexArr = input.substring(7).split(" ");
+            taskList.deleteTask(indexArr);
+            String status = storage.writeToFile(tasks);
+            responseMessage = taskList.taskMessage;
+            assert status.equals("Successful saved to file") : "Failed to write content";
         } else if (command.equals("todo")) {
             int emptyIndex = input.indexOf(" ");
             if (input.trim().equals("todo"))

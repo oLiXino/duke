@@ -1,5 +1,6 @@
 package duke;
 
+import java.security.spec.ECField;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
@@ -29,15 +30,33 @@ public class TaskList {
     }
 
     /**
-     * Marks the status of a specific task in the task list to be done.
+     * Marks the status of one or more tasks in the task list to be done.
      *
-     * @param index the index of the task in the task list.
+     * @param indexArr the array of the index of the tasks to be marked as done in the task list.
      */
-    protected void markTaskDone(int index) {
-        taskMessage = "Nice! I've marked this task as done:\n";
-        Task task = tasks.get(index);
-        task.markAsDone();
-        taskMessage += task;
+    protected void markTaskDone(String[] indexArr) {
+        taskMessage = "";
+        String tempMessage = "Nice! I've marked the following task as done:\n";
+        String errorMessage = "Task ";
+        boolean hasValidIndex = false;
+        boolean hasInvalidIndex = false;
+        for (String str : indexArr) {
+            int index = Integer.parseInt(str.trim());
+            if (index > tasks.size() || index < 0) {
+                hasInvalidIndex = true;
+                errorMessage += index + " ";
+                continue;
+            }
+            hasValidIndex = true;
+            Task task = tasks.get(index - 1);
+            task.isDone = true;
+            tempMessage += task + "\n";
+        }
+        if (hasValidIndex)
+            taskMessage = tempMessage;
+
+        if (hasInvalidIndex)
+            taskMessage += errorMessage + "not exist in the list.";
     }
 
     /**
@@ -82,17 +101,36 @@ public class TaskList {
     }
 
     /**
-     * Removes a specific task from the task list.
+     * Removes one or more tasks from the task list.
      *
-     * @param index the index of the task in the task list.
-     * @throws Exception if index > the number of tasks in the task list or index < 0.
+     * @param indexArr the array of the index of the tasks to be deleted from the task list.
      */
-    protected void deleteTask(int index) throws Exception{
-        if (index >= tasks.size() || index < 0)
-            throw new Exception("The task does not exist on the list");
-        Task task = tasks.remove(index);
-        taskMessage = "Got it. I've removed this task: \n";
-        taskMessage += task + "\n";
+    protected void deleteTask(String[] indexArr) {
+        taskMessage = "";
+        ArrayList<Task> deleteTaskList = new ArrayList<>();
+        String tempMessage = "Got it. I've removed the following tasks: \n";
+        String errorMessage = "Task ";
+        boolean hasValidIndex = false;
+        boolean hasInvalidIndex = false;
+        for (String str : indexArr) {
+            int index = Integer.parseInt(str.trim());
+            if (index > tasks.size() || index < 0) {
+                hasInvalidIndex = true;
+                errorMessage += index + " ";
+                continue;
+            }
+            hasValidIndex = true;
+            Task task = tasks.get(index - 1);
+            deleteTaskList.add(task);
+            tempMessage += task + "\n";
+        }
+        if (hasValidIndex) {
+            for (Task task : deleteTaskList)
+                tasks.remove(task);
+            taskMessage = tempMessage;
+        }
+        if (hasInvalidIndex)
+            taskMessage += errorMessage + "not exist in the list.\n";
         taskMessage += "Now you have " + tasks.size() + " tasks in the list.\n";
     }
 
