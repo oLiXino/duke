@@ -14,7 +14,7 @@ public class Ui {
      */
     protected String greeting() {
         String str = "-----------------------------------\n"
-                + "Hello! I'm Cat\n"
+                + "Hello! I'm CatBot\n"
                 + "What can I do for you?\n"
                 + "-----------------------------------\n";
         return str;
