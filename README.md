@@ -20,16 +20,24 @@
 1. Ensure that your src folder is checked. Keep clicking `Next`.
 1. Click `Finish`.
 
+# Feature
 
-# Command List
+* Keep track of tasks added to the task list.
+* Complete task(s) by marking the status of the task(s) as done.
+* Add diffrent types of tasks to the task list.
+* Search tasks using key words.
+* Remove tasks using task ID(s) from the task list.
+
+
+# Usage
 
 * list - To list all tasks on the task list.
 * done {task ID(s)} - To mark one more tasks as done.
 * todo {task description} - To add new todo task to the task list.
 * deadline {task description} /by {YYYY-MM-DD} - To add new deadline task to the task list.
 * event {task description} /at {YYYY-MM-DD} - To add new event task to the task list.
-* delete {task ID(s)} - To delete one more tasks from the task list.
-* find {key word} - To search for task(s) that contain the key word.
+* delete {task ID(s)} - To remove one more tasks from the task list.
+* find {key words} - To search task(s) that contain the key words.
 * bye - To exit the program.
 
 
