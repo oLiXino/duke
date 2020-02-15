@@ -20,7 +20,9 @@
 1. Ensure that your src folder is checked. Keep clicking `Next`.
 1. Click `Finish`.
 
+
 # Command List
+
 * list - To list all tasks on the task list.
 * done {task ID(s)} - To mark one more tasks as done.
 * todo {task description} - To add new todo task to the task list.
@@ -29,6 +31,7 @@
 * delete {task ID(s)} - To delete one more tasks from the task list.
 * find {key word} - To search for task(s) that contain the key word.
 * bye - To exit the program.
+
 
 # Tutorials 
 
@@ -42,6 +45,7 @@ Duke Increment | Tutorial
 [fx2]: <tutorials/javaFxTutorialPart2.md>
 [fx3]: <tutorials/javaFxTutorialPart3.md>
 [fx4]: <tutorials/javaFxTutorialPart4.md>
+
 
 # Feedback, Bug Reports
 
