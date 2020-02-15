@@ -1,4 +1,4 @@
-# Setting up
+# Setting Up
 
 **Prerequisites**
 
@@ -19,6 +19,16 @@
 1. Rename the project if you want. Click `Next`.
 1. Ensure that your src folder is checked. Keep clicking `Next`.
 1. Click `Finish`.
+
+# Command List
+* list - To list all tasks on the task list.
+* done {task ID(s)} - To mark one more tasks as done.
+* todo {task description} - To add new todo task to the task list.
+* deadline {task description} /by {YYYY-MM-DD} - To add new deadline task to the task list.
+* event {task description} /at {YYYY-MM-DD} - To add new event task to the task list.
+* delete {task ID(s)} - To delete one more tasks from the task list.
+* find {key word} - To search for task(s) that contain the key word.
+* bye - To exit the program.
 
 # Tutorials 
 
