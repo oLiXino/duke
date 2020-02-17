@@ -1,9 +1,7 @@
 package duke;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -15,7 +13,6 @@ import java.util.Scanner;
 public class Storage {
 
     String filePath;
-
     public Storage(String filePath) {
         this.filePath = filePath;
     }
@@ -26,32 +23,35 @@ public class Storage {
      * @return the task list that retrieved from the file.
      * @throws FileNotFoundException If file is not found.
      */
-    public ArrayList<Task> printFileContents() throws FileNotFoundException {
+    public ArrayList<Task> printFileContents() throws IOException {
         ArrayList<Task> tasks = new ArrayList<>();
-        File f = new File(filePath); // create a File for the given file path
-        Scanner s = new Scanner(f); // create a Scanner using the File as the source
-        while (s.hasNext()) {
-            String[] data = s.nextLine().split("\\|");
-            String type = data[0].trim();
-            String isDone = data[1].trim();
-            if (type.equals("T")){
-                Todo todo = new Todo(data[2].trim());
-                if (isDone.equals("1"))
-                    todo.markAsDone();
-                tasks.add(todo);
-            } else if (type.equals("D")) {
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM d yyyy");
-                Deadline deadline = new Deadline(data[2].trim(), LocalDate.parse(data[3].trim(), formatter));
-                if (isDone.equals("1"))
-                    deadline.markAsDone();
-                tasks.add(deadline);
-            } else {
-                assert type.equals("E") : "Task type should be event";
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM d yyyy");
-                Event event = new Event(data[2].trim(), LocalDate.parse(data[3].trim(), formatter));
-                if (isDone.equals("1"))
-                    event.markAsDone();
-                tasks.add(event);
+        File file = new File(filePath);
+        file.getParentFile().mkdirs();
+        if (!file.createNewFile()) {
+            Scanner s = new Scanner(file);
+            while (s.hasNext()) {
+                String[] data = s.nextLine().split("\\|");
+                String type = data[0].trim();
+                String isDone = data[1].trim();
+                if (type.equals("T")) {
+                    Todo todo = new Todo(data[2].trim());
+                    if (isDone.equals("1"))
+                        todo.markAsDone();
+                    tasks.add(todo);
+                } else if (type.equals("D")) {
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM d yyyy");
+                    Deadline deadline = new Deadline(data[2].trim(), LocalDate.parse(data[3].trim(), formatter));
+                    if (isDone.equals("1"))
+                        deadline.markAsDone();
+                    tasks.add(deadline);
+                } else {
+                    assert type.equals("E") : "Task type should be event";
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM d yyyy");
+                    Event event = new Event(data[2].trim(), LocalDate.parse(data[3].trim(), formatter));
+                    if (isDone.equals("1"))
+                        event.markAsDone();
+                    tasks.add(event);
+                }
             }
         }
         return tasks;

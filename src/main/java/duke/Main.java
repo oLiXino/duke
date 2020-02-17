@@ -7,12 +7,14 @@ import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
+
 /**
  * A GUI for Duke using FXML.
  */
 public class Main extends Application {
 
-    private Duke duke = new Duke();
+
+    private Duke duke = new Duke("data/duke.txt");
 
     @Override
     public void start(Stage stage) {

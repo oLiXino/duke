@@ -1,8 +1,8 @@
 package duke;
 
+import java.io.IOException;
 import java.util.Scanner;
 import java.util.ArrayList;
-import java.io.FileNotFoundException;
 import java.time.LocalDate;
 
 public class Duke {
@@ -14,21 +14,27 @@ public class Duke {
     private ArrayList<Task> tasks;
     private TaskList taskList;
 
-    public Duke() {
+    public Duke(String filePath) {
         sc = new Scanner(System.in);
         ui = new Ui();
         parser = new Parser();
-        storage = new Storage("data/duke.txt");
+        storage = new Storage(filePath);
         tasks = new ArrayList<>();
     }
+
+    /***
+     * Reads tasks content
+     *
+     * @return status to indicate if tasks content is successfully retrieved from the file.
+     */
 
     public String run () {
         String status;
         try {
             tasks = storage.printFileContents();
             status = "Successfully retrieved tasks";
-        } catch (FileNotFoundException e) {
-            status = "File not found";
+        } catch (IOException e) {
+            status = "There is something wrong when reading file";
         }
         taskList = new TaskList(tasks);
         return status;
